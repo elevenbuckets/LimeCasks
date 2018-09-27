@@ -1,12 +1,22 @@
 {
   "name": "LimeCasks",
   "version": "1.0.0",
-  "description": "",
+  "description": "Strip-down version of CastIron API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "babel core/classes/wrapper.js -o core/Wrap3.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Jason Lin",
+  "license": "GPLv3",
+  "dependencies": {
+    "async": "^2.6.1",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "bignumber.js": "^7.2.1",
+    "uuid": "^3.3.2",
+    "web3": "^0.19.1"
+  }
 }
