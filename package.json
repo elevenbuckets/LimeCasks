@@ -6,12 +6,29 @@
   "scripts": {
     "compile": "babel core/classes/wrapper.js -o core/Wrap3.js"
   },
+  "babel": {
+    "plugins": [
+      "transform-class-properties",
+      "transform-object-rest-spread"
+    ],
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "8.6"
+          }
+        }
+      ]
+    ]
+  },
   "keywords": [],
   "author": "Jason Lin",
   "license": "GPLv3",
   "dependencies": {
     "async": "^2.6.1",
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
