@@ -4,7 +4,8 @@
   "description": "Strip-down version of CastIron API",
   "main": "index.js",
   "scripts": {
-    "compile": "babel core/classes/wrapper.js -o core/Wrap3.js"
+    "compile": "babel core/classes/wrapper.js -o core/Wrap3.js",
+    "postinstall": "npm run compile"
   },
   "babel": {
     "plugins": [
