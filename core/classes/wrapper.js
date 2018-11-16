@@ -95,33 +95,41 @@ class Wrap3 {
 
 	allAccounts = () => { return this.web3.eth.accounts; }
 
-	/*
-	ethNetStatus = () => 
-	{
-		let blockHeight = this.web3.eth.blockNumber;
-		let blockTime   = this.web3.eth.getBlock(blockHeight).timestamp;
+	ethNetStatus = () =>
+        {
+                if (this.web3.net.peerCount === 0 && this.web3.eth.mining === false) {
+                        return {blockHeight: 0, blockTime: 0, highestBlock: 0};
+                }
 
-		return {blockHeight, blockTime};
-	}
-	*/
+                let sync = this.web3.eth.syncing;
 
-	ethNetStatus = () => 
-	{
-		if (this.web3.net.peerCount === 0 && this.web3.eth.mining === false) {
-			return {blockHeight: 0, blockTime: 0, highestBlock: 0};
-		}
+                if (sync === false) {
+                        let blockHeight = this.web3.eth.blockNumber;
+                        let blockTime;
 
-		let sync = this.web3.eth.syncing;
+                        try {
+                                blockTime = this.web3.eth.getBlock(blockHeight).timestamp;
+                        } catch(err) {
+                                blockTime = 0;
+                                blockHeight = 0;
+                        }
 
-		if (sync === false) {
-			let blockHeight = this.web3.eth.blockNumber;
-			let blockTime   = this.web3.eth.getBlock(blockHeight).timestamp;
+                        return {blockHeight, blockTime, highestBlock: blockHeight};
+                } else {
+                        let blockHeight = sync.currentBlock;
+                        let highestBlock = sync.highestBlock;
+                        let blockTime;
+                        try {
+                                blockTime = this.web3.eth.getBlock(blockHeight).timestamp;
+                        } catch(err) {
+                                blockTime = 0;
+                                blockHeight = 0;
+                                highestBlock = 0;
+                        }
 
-			return {blockHeight, blockTime, highestBlock: blockHeight};
-		} else {
-			return {blockHeight: sync.currentBlock, blockTime: this.web3.eth.getBlock(sync.currentBlock).timestamp, highestBlock: sync.highestBlock};
-		}
-	}
+                        return {blockHeight, blockTime, highestBlock};
+                }
+        }	
 
 	addrEtherBalance = addr => { return this.web3.eth.getBalance(addr); }
 
@@ -155,8 +163,7 @@ class Wrap3 {
 
 		let live;
 		try {
-		        live = this.web3 instanceof Web3 && this.web3.net._requestManager.provider instanceof Web3.providers.HttpProvider;
-			this.web3.net.listening
+		        live = this.web3 instanceof Web3 && this.web3.net._requestManager.provider instanceof Web3.providers.HttpProvider && this.web3.net.listening;
 		} catch(err) {
 			live = false;
 		}
